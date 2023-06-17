@@ -59,8 +59,6 @@ class Dino:
             text_threshold=TEXT_TRESHOLD,
             device=self.device
         )
-        print("logits:", logits)
-        print("pphrases", phrases)
         h, w, _ = image_source.shape
         boxes = raw_boxes * torch.Tensor([w, h, w, h])
         xyxy = box_convert(boxes=boxes, in_fmt="cxcywh", out_fmt="xyxy").numpy()
