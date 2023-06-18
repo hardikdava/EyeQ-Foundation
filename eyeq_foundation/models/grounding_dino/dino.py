@@ -1,26 +1,18 @@
+"""
+Script for performing zero-shot object detection
+"""
+from typing import Tuple, List
 import os.path
-from torchvision.ops import box_convert
-import numpy as np
-import cv2
-import torch
-import supervision as sv
-from groundingdino.util.inference import load_model, predict, load_image, annotate
 from pathlib import Path
-import groundingdino.datasets.transforms as T
-
-
-class DinoGuide:
-
-    def __init__(self):
-        pass
-
-    @staticmethod
-    def promt_from_labelmap(labelmap: list) -> str:
-        promt = ' '.join(labelmap)
-        return promt
+import numpy as np
+import supervision as sv
+from groundingdino.util.inference import Model
 
 
 class Dino:
+    """
+    Class to perform zero shot object detection on an image using Grounding Dino
+    """
 
     def __init__(self, model_type: str, weights_path: str, device: str):
         self.predictor = None
@@ -29,42 +21,31 @@ class Dino:
         self.device = device
         self._build()
 
-    def _build(self):
+    def _build(self) -> None:
+        """
+        load and build model if required
+        """
         current_dir = str(Path(__file__).parent)
         if self.model_type == "swint":
             config_path = os.path.join(current_dir, "swint_cfg.py")
         else:
             config_path = os.path.join(current_dir, "swinb_cfg.py")
-        self.predictor = load_model(config_path,self.weights_path)
 
-    def _preprocess(self, image: np.ndarray):
-        transform = T.Compose(
-            [
-                T.RandomResize([800], max_size=1333),
-                T.ToTensor(),
-                T.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225]),
-            ]
-        )
-        image_rgb = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
-        image_transformed, _ = transform(image_rgb, None)
-        return image, image_transformed
+        self.predictor = Model(model_config_path=config_path, model_checkpoint_path=self.weights_path, device=self.device)
 
-    def predict(self, image_path: str, TEXT_PROMPT, BOX_TRESHOLD=0.5, TEXT_TRESHOLD=0.5):
-        image_source, image = load_image(image_path)
-        raw_boxes, logits, phrases = predict(
-            model=self.predictor,
-            image=image,
-            caption=TEXT_PROMPT,
-            box_threshold=BOX_TRESHOLD,
-            text_threshold=TEXT_TRESHOLD,
-            device=self.device
-        )
-        h, w, _ = image_source.shape
-        boxes = raw_boxes * torch.Tensor([w, h, w, h])
-        xyxy = box_convert(boxes=boxes, in_fmt="cxcywh", out_fmt="xyxy").numpy()
-        detections = sv.Detections(xyxy=xyxy)
-        return detections
+    def predict(self, image: np.ndarray, text_promt: str, threshold: float) -> Tuple[sv.Detections, List[str]]:
+        detections, labels = self.predictor.predict_with_caption(image=image, caption=text_promt,
+                                            box_threshold=threshold, text_threshold=threshold)
+        return detections, labels
 
+    @staticmethod
+    def dino_promt_from_labelmap(labelmap: list) -> str:
+        """
+        :param labelmap: list of object classes as string
+        :return: string of class names joined by space as dino input
+        """
+        promt = ' '.join(labelmap)
+        return promt
 
 
 

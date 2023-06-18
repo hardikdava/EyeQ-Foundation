@@ -1,7 +1,13 @@
 from segment_anything import sam_model_registry, SamAutomaticMaskGenerator, SamPredictor
 import numpy as np
 import supervision as sv
-from eyeq_foundation.models.sam.utils import SamGuide
+
+
+class SamGuide:
+
+    def __init__(self, detections: sv.Detections = sv.Detections.empty(), points: np.ndarray = None):
+        self.detections = detections
+        self.points = points
 
 
 class Sam:
@@ -61,4 +67,6 @@ class Sam:
         xyxy[2] = xyxy[2] - xyxy[0]
         xyxy[3] = xyxy[3] - xyxy[1]
         return xyxy
+
+
 
