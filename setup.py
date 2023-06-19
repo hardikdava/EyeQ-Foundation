@@ -11,11 +11,11 @@ with open("README.md", "r") as fh:
     long_description = fh.read()
 
 setuptools.setup(
-    name="EyeQ",
+    name="EyeQ-Foundation",
     version=version,
     author="hardikdava",
     author_email="hardik1901dava@gmail.com",
-    description="Computer Vision Inference Engine",
+    description="Computer Vision Inference Engine for Foundation Models",
     long_description=long_description,
     long_description_content_type="text/markdown",
     url="",
