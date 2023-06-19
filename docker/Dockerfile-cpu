@@ -1,0 +1,17 @@
+FROM python:3.9
+ENV DEBIAN_FRONTEND=noninteractive
+RUN apt-get update && apt-get install ffmpeg libsm6 libxext6  -y
+COPY requirements.txt requirements.txt
+
+
+RUN pip install --upgrade pip setuptools distlib
+
+RUN pip install --no-cache-dir --upgrade -r requirements.txt
+RUN ls
+
+RUN pip install uvicorn
+COPY ./ /eyeq_foundation/
+
+WORKDIR /eyeq_foundation
+RUN ls
+CMD uvicorn eyeq_foundation.server.server:app --host 0.0.0.0 --port 9000
