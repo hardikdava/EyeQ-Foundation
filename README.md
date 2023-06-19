@@ -23,18 +23,38 @@ Funcationalities:
 - [ ] Knowledge Distillation application
 
 
-### Build Docker:
+## How to use
+
+### Pip Package:
+
+**Installation:**
+
 ```
-docker build -t eyeq-foundation -f docker/Dockerfile-cpu --progress=plain .
+pip install git+https://github.com/facebookresearch/segment-anything.git
 ```
 
-### Start Docker:
+**Usage in code:**
 
 ```
-docker build -t eyeq-foundation -f docker/Dockerfile-cpu --progress=plain .
+from eyeq_foundation import SAM, Dino
+teacher_model = SAM()
 ```
 
-### Logs:
+
+### Docker Service:
+
+**Build :**
+```
+docker build -t eyeq-foundation -f docker/Dockerfile-cpu .
+```
+
+**Start:**
+
+```
+docker build -t eyeq-foundation -f docker/Dockerfile-cpu .
+```
+
+**Logs:**
 
 ```
 docker container logs eyeq-foundation
