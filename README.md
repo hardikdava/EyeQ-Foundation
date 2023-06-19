@@ -20,6 +20,8 @@ Funcationalities:
 
 - [ ] Segment Anything HQ
 - [ ] Batched Inference
+- [ ] RAM
+- [ ] Tag2Text
 - [ ] Knowledge Distillation application
 
 
