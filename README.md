@@ -51,7 +51,7 @@ docker build -t eyeq-foundation -f docker/Dockerfile-cpu .
 **Start:**
 
 ```
-docker build -t eyeq-foundation -f docker/Dockerfile-cpu .
+docker run -d --name eyeq-foundation -p 9000:9000 eyeq-foundation
 ```
 
 **Logs:**
