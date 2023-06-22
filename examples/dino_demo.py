@@ -2,13 +2,16 @@ import cv2
 from eyeq_foundation import Annotator, visualizer, Dino
 
 
-labelmaps = ["person", "tie"]
+labelmap_file = "../data/coco_classes.txt"
+with open(labelmap_file, 'r') as f:
+    labelmaps = f.read().splitlines()
 
 img = cv2.imread("../data/zidane.jpg")
 
 text_promt = Dino.dino_promt_from_labelmap(labelmap=labelmaps)
 
 dino_model = Dino( model_type="swint", weights_path="../weights/groundingdino_swint_ogc.pth", device="cpu")
+
 detections_dino, labels = dino_model.predict(image=img, text_promt=text_promt, threshold=0.4)
 
 annotator = Annotator()

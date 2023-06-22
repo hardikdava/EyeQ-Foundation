@@ -1,0 +1,9 @@
+numpy
+opencv-python
+supervision
+--extra-index-url https://download.pytorch.org/whl/cpu torch
+--extra-index-url https://download.pytorch.org/whl/cpu torchvision
+fastapi
+uvicorn
+ultralytics
+git+https://github.com/facebookresearch/segment-anything.git

@@ -44,7 +44,7 @@ class Dino:
         :param labelmap: list of object classes as string
         :return: string of class names joined by space as dino input
         """
-        promt = ' '.join(labelmap)
+        promt = '.'.join(labelmap)
         return promt
 
 
