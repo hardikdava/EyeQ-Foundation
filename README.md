@@ -8,7 +8,8 @@ Funcationalities:
 - Auto Label image from directory
 - REST API service
 - Pip installation
-- Docker installatin for REST Server using FastAPI 
+- Docker installatin for REST Server using FastAPI
+- CLIP to correctly identify the labels
 
 
 ## Available Models:
@@ -23,6 +24,7 @@ Funcationalities:
 - [ ] RAM
 - [ ] Tag2Text
 - [ ] Knowledge Distillation application
+- [ ] CLIP 
 
 
 ## How to use
@@ -33,6 +35,8 @@ Funcationalities:
 
 ```
 pip install git+https://github.com/facebookresearch/segment-anything.git
+pip install git+https://github.com/IDEA-Research/GroundingDINO.git
+pip install git+https://github.com/openai/CLIP.git
 ```
 
 **Usage in code:**
